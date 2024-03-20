@@ -1,9 +1,17 @@
 import fs from 'fs';
 
 let dirName = process.argv[2];
+let prefix = process.argv[3];
 
 const MAPPINGS = fs.readFileSync('includes/git.csv').toString();
-const PAIRS = MAPPINGS.split('\r\n').map(a => a.split(','));
+const PAIRS = MAPPINGS.split('\r\n').map(a => {
+    const splt = a.split(',');
+    if (prefix) {
+        return [splt[0], prefix + splt[1]]
+    } else {
+        return splt;
+    }
+});
 
 let hasDupes = false;
 let alreadyFound = [];
